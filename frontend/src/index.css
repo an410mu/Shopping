@@ -9,3 +9,8 @@ main {
 h3 {
   padding: 1rem 0;
 }
+
+a {
+  color: white;
+  text-decoration: none;
+}
