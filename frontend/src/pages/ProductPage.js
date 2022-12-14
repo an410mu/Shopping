@@ -1,12 +1,21 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Row, Col, ListGroup, Card, Button, Image } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
-import products from "../products.js";
+//import products from "../products.js";
 import Rating from "../components/Rating.js";
+import axios from "axios";
 
 const ProductPage = () => {
   const params = useParams();
-  const product = products.find((ele) => ele._id === params.id);
+  //const product = products.find((ele) => ele._id === params.id);
+  const [product, setProduct] = useState({});
+  useEffect(() => {
+    const fetchProduct = async () => {
+      const { data } = await axios.get(`/products/${params.id}`);
+      setProduct(data);
+    };
+    fetchProduct();
+  }, [params.id]);
 
   return (
     <>
@@ -56,7 +65,7 @@ const ProductPage = () => {
                 <Button
                   className="btn-block"
                   type="button"
-                  disable={product.countInStock === 0}
+                  disable={product.countInStock === 0 ? "true" : "false"}
                 >
                   ADD TO CART
                 </Button>
