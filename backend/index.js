@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 // const express = require("express");
 //In package.json, once add type:module, able to use import like frontend
 //need to add .js for file, and change from module.exports to export default
+import productRoutes from "./router/productRoutes.js";
 
 const app = express();
 dotenv.config();
@@ -13,14 +14,7 @@ app.get("/", (req, res) => {
   res.send("API is running");
 });
 
-app.get("/products", (req, res) => {
-  res.json(products);
-});
-
-app.get("/products/:id", (req, res) => {
-  const product = products.find((ele) => ele._id === req.params.id);
-  res.json(product);
-});
+app.use("/products", productRoutes);
 
 const port = process.env.PORT || 8000;
 
