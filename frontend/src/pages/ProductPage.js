@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Row, Col, ListGroup, Card, Button, Image } from "react-bootstrap";
+import {
+  Row,
+  Col,
+  ListGroup,
+  Card,
+  Button,
+  Image,
+  Form,
+} from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
 //import products from "../products.js";
 import Rating from "../components/Rating.js";
@@ -10,6 +18,7 @@ const ProductPage = () => {
   const params = useParams();
   //const product = products.find((ele) => ele._id === params.id);
   //const [product, setProduct] = useState({});
+  const [qty, setQty] = useState(0);
 
   const dispatch = useDispatch();
   //need to initialize in the store.js for the action
@@ -71,6 +80,28 @@ const ProductPage = () => {
                     </Col>
                   </Row>
                 </ListGroup.Item>
+                {product.countInStock > 0 && (
+                  <ListGroup.Item>
+                    <Row>
+                      <Col>Qty</Col>
+                      <Col>
+                        <Form.Control
+                          as="select"
+                          value={qty}
+                          onChange={(e) => setQty(e.target.value)}
+                        >
+                          {[...Array(product.countInStock).keys()].map(
+                            (ele) => (
+                              <option key={ele + 1} value={ele + 1}>
+                                {ele + 1}
+                              </option>
+                            )
+                          )}
+                        </Form.Control>
+                      </Col>
+                    </Row>
+                  </ListGroup.Item>
+                )}
                 <ListGroup.Item>
                   <Button
                     className="btn-block"
