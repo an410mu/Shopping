@@ -1,13 +1,13 @@
 import axios from "axios";
-import { CAR_ADD_ITEM, CART_REMOVE_ITEM } from "./constants/cartConstants.js";
+import { CART_ADD_ITEM, CART_REMOVE_ITEM } from "../constants/cartConstants.js";
 
 export const addToCart = (id, qty) => async (dispatch, getState) => {
   //getState will provide entire state tree
 
   const { data } = await axios.get(`/products/${id}`);
 
-  dispach({
-    type: CAR_ADD_ITEM,
+  dispatch({
+    type: CART_ADD_ITEM,
     payload: {
       product: data._id,
       name: data.name,

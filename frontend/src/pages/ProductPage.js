@@ -20,7 +20,7 @@ const ProductPage = () => {
 
   //const product = products.find((ele) => ele._id === params.id);
   //const [product, setProduct] = useState({});
-  const [qty, setQty] = useState(0);
+  const [qty, setQty] = useState(1);
 
   const dispatch = useDispatch();
   //need to initialize in the store.js for the action
