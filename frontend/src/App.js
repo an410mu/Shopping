@@ -6,6 +6,7 @@ import { Container } from "react-bootstrap";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./index.css";
 import Home from "./pages/Home.js";
+import CartPage from "./pages/CartPage.js";
 
 function App() {
   return (
@@ -19,6 +20,9 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/product/:id" element={<ProductPage />} />
+              <Route path="/cart" element={<CartPage />} />
+              <Route path="/cart/:id" element={<CartPage />} />
+              {/* ?make id optional */}
             </Routes>
           </Container>
         </main>
