@@ -15,7 +15,7 @@ import {
   useNavigate,
   useSearchParams,
 } from "react-router-dom";
-import { addToCart } from "../actions/cartActions.js";
+import { addToCart, removeFromCart } from "../actions/cartActions.js";
 
 const CartPage = ({ location }) => {
   const params = useParams(); //older version use ({match})
@@ -38,10 +38,12 @@ const CartPage = ({ location }) => {
 
   const removeFromCartHandler = (id) => {
     console.log(`remove ${id}`);
+    dispatch(removeFromCart(id));
   };
 
   const checkOutHandler = () => {
     console.log("check out cart");
+    history("/login?redirect=shipping");
   };
 
   return (
