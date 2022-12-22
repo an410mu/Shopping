@@ -40,6 +40,10 @@ const CartPage = ({ location }) => {
     console.log(`remove ${id}`);
   };
 
+  const checkOutHandler = () => {
+    console.log("check out cart");
+  };
+
   return (
     <>
       <Row>
@@ -103,8 +107,23 @@ const CartPage = ({ location }) => {
             <ListGroup variant="flush">
               <ListGroup.Item>
                 <h5>
-                  Subtotal ({cartItems.reduce((acc, ele) => acc + ele.qty, 0)})
+                  Subtotal (
+                  {cartItems.reduce((acc, ele) => acc + Number(ele.qty), 0)})
                 </h5>
+                $
+                {cartItems
+                  .reduce((acc, ele) => acc + ele.price * ele.qty, 0)
+                  .toFixed(2)}
+              </ListGroup.Item>
+              <ListGroup.Item>
+                <Button
+                  type="button"
+                  className="btn-block"
+                  disabled={cartItems.length === 0}
+                  onClick={checkOutHandler}
+                >
+                  Check Out
+                </Button>
               </ListGroup.Item>
             </ListGroup>
           </Card>
