@@ -16,7 +16,7 @@ const getProductById = async (req, res) => {
       res.json(singleProduct);
     } else {
       res.status(404);
-      throw new Error("Product not found");
+      throw Error("Product not found");
     }
   } catch (error) {
     console.log(error);

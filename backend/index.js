@@ -1,3 +1,4 @@
+import expressasyncerrors from "express-async-errors";
 import dotenv from "dotenv";
 import express from "express";
 import products from "./data/products.js";
@@ -12,10 +13,12 @@ const app = express();
 dotenv.config();
 
 app.use(express.json());
-app.use(errorHandler);
 
 app.use("/products", productRoutes);
 app.use("/users", userRoutes);
+
+// app.use(notFound);
+app.use(errorHandler);
 
 const port = process.env.PORT || 8000;
 

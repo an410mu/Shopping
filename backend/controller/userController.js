@@ -3,7 +3,22 @@ import User from "../models/userSchema.js";
 //Auth user and get token
 //POST /users/login
 
-const authUser = async (req, res, next) => {
+const getUser = async (req, res) => {
+  //const existedUser = await User.findById(req.user._id);
+  const user = await User.findById(req.user._id);
+  if (user) {
+    res.json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+    });
+  } else {
+    res.status(404);
+    throw new Error("user not found");
+  }
+};
+
+const authUser = async (req, res) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
@@ -14,8 +29,8 @@ const authUser = async (req, res, next) => {
 
     //need to work on custom error handle middleware
     if (!user) {
-      //throw new Error("User does not exist");
-      res.json({ error: "user not found" });
+      res.send("user not found");
+      throw new Error("User does not exist");
     }
 
     const checkPwd = await user.matchPassword(password);
@@ -39,7 +54,7 @@ const register = async (req, res) => {
 
   const existedUser = await User.findOne({ email });
   if (existedUser) {
-    throw new Error("email is already registed");
+    throw Error("email is already registed");
   }
 
   //select in the schema not working with the create, the password still get pass back
@@ -54,4 +69,4 @@ const register = async (req, res) => {
   });
 };
 
-export { authUser, register };
+export { authUser, register, getUser };
