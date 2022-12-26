@@ -7,11 +7,12 @@ import mongoose from "mongoose";
 //need to add .js for file, and change from module.exports to export default
 import productRoutes from "./router/productRoutes.js";
 import userRoutes from "./router/userRoutes.js";
-
+import { errorHandler } from "./middleware/errorMiddleWare.js";
 const app = express();
 dotenv.config();
 
 app.use(express.json());
+app.use(errorHandler);
 
 app.use("/products", productRoutes);
 app.use("/users", userRoutes);

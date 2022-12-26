@@ -12,7 +12,12 @@ const getProduct = async (req, res) => {
 const getProductById = async (req, res) => {
   try {
     const singleProduct = await Product.findById(req.params.id);
-    res.send(singleProduct);
+    if (singleProduct) {
+      res.json(singleProduct);
+    } else {
+      res.status(404);
+      throw new Error("Product not found");
+    }
   } catch (error) {
     console.log(error);
   }
