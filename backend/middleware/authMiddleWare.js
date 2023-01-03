@@ -7,7 +7,7 @@ const protect = async (req, res, next) => {
   console.log(req.headers.authorization);
 
   if (!req.headers.authorization) {
-    res.json({});
+    throw Error("Unauthorized");
   }
 
   if (
