@@ -19,31 +19,27 @@ const getUser = async (req, res) => {
 };
 
 const authUser = async (req, res) => {
-  try {
-    const { email, password } = req.body;
-    if (!email || !password) {
-      throw new Error("Please enter all values");
-    }
-
-    const user = await User.findOne({ email }).select("+password");
-
-    //need to work on custom error handle middleware
-    if (!user) {
-      res.send("user not found");
-      throw new Error("User does not exist");
-    }
-
-    const checkPwd = await user.matchPassword(password);
-    if (!checkPwd) {
-      throw new Error("Invalid password");
-    }
-
-    const token = user.createJWT();
-    user.password = undefined;
-    res.status(200).json({ user, token });
-  } catch (err) {
-    console.log(err);
+  const { email, password } = req.body;
+  if (!email || !password) {
+    throw new Error("Please enter all values");
   }
+
+  const user = await User.findOne({ email }).select("+password");
+
+  //need to work on custom error handle middleware
+  if (!user) {
+    res.send("user not found");
+    throw new Error("User does not exist");
+  }
+
+  const checkPwd = await user.matchPassword(password);
+  if (!checkPwd) {
+    throw new Error("Invalid password");
+  }
+
+  const token = user.createJWT();
+  user.password = undefined;
+  res.status(200).json({ user, token });
 };
 
 const register = async (req, res) => {

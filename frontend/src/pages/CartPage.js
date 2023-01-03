@@ -16,6 +16,7 @@ import {
   useSearchParams,
 } from "react-router-dom";
 import { addToCart, removeFromCart } from "../actions/cartActions.js";
+//import { login } from "../actions/userActions";
 
 const CartPage = ({ location }) => {
   const params = useParams(); //older version use ({match})
@@ -30,6 +31,9 @@ const CartPage = ({ location }) => {
   const { cartItems } = cart;
   console.log(cartItems);
 
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
   useEffect(() => {
     if (params.id) {
       dispatch(addToCart(params.id, qty));
@@ -43,7 +47,11 @@ const CartPage = ({ location }) => {
 
   const checkOutHandler = () => {
     console.log("check out cart");
-    history("/login?redirect=shipping");
+    if (userInfo) {
+      history("/shipping");
+    } else {
+      history("/login");
+    }
   };
 
   return (

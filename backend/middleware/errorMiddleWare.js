@@ -30,7 +30,7 @@
 const errorHandler = (err, req, res, next) => {
   console.log(err);
   const defaultError = {
-    code: err.statusCode || 500,
+    code: err.statusCode || 900,
     msg: err.message || "Something wrong, try again later",
   };
 
@@ -40,6 +40,7 @@ const errorHandler = (err, req, res, next) => {
   }
 
   res.status(defaultError.code).json({ msg: defaultError.msg });
+  next();
 };
 
 export { errorHandler };
