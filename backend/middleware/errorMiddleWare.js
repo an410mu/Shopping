@@ -30,7 +30,7 @@
 const errorHandler = (err, req, res, next) => {
   console.log(err);
   const defaultError = {
-    code: err.statusCode || 900,
+    code: err.statusCode || 500,
     msg: err.message || "Something wrong, try again later",
   };
 

@@ -38,7 +38,7 @@ const CartPage = ({ location }) => {
     if (params.id) {
       dispatch(addToCart(params.id, qty));
     }
-  }, [dispatch, params.id, qty]);
+  }, [dispatch, params.id, qty, userInfo]);
 
   const removeFromCartHandler = (id) => {
     console.log(`remove ${id}`);
@@ -47,10 +47,10 @@ const CartPage = ({ location }) => {
 
   const checkOutHandler = () => {
     console.log("check out cart");
-    if (userInfo) {
-      history("/shipping");
+    if (!userInfo) {
+      history("/user/login");
     } else {
-      history("/login");
+      history("/user/shipping");
     }
   };
 
@@ -61,7 +61,10 @@ const CartPage = ({ location }) => {
           <h1>Shopping Cart</h1>
           {cartItems.length === 0 ? (
             <h3>
-              Your cart is empty <Link to="/">Go Back</Link>
+              Your cart is empty{" "}
+              <Link to="/" style={{ color: "black" }}>
+                Go Back
+              </Link>
             </h3>
           ) : (
             <ListGroup variant="flush">

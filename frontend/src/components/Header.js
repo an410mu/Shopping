@@ -40,7 +40,7 @@ const Header = () => {
                 </NavDropdown.Item>
               </NavDropdown>
             ) : (
-              <Nav.Link href="/login">
+              <Nav.Link href="/user/login">
                 <i className="fa-solid fa-circle-user"></i>Sign In
               </Nav.Link>
             )}

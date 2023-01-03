@@ -2,18 +2,17 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../actions/userActions";
+import { register } from "../actions/userActions";
 import FormContainer from "../components/FormContainer.js";
 
-const Login = ({ location }) => {
+const Register = ({ location }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
 
   const dispatch = useDispatch();
-  const userLogin = useSelector((state) => state.userLogin);
-  const { loading, error, userInfo } = userLogin;
-  const cart = useSelector((state) => state.cart);
-  const { cartItems } = cart;
+  const userRegister = useSelector((state) => state.userRegister);
+  const { loading, error, userInfo } = userRegister;
 
   const history = useNavigate();
 
@@ -21,22 +20,20 @@ const Login = ({ location }) => {
   const redirect = "/";
 
   useEffect(() => {
-    if (userInfo && cartItems) {
-      history("/user/shipping");
-    } else if (userInfo) {
+    if (userInfo) {
       history("/");
     }
-  }, [history, userInfo, redirect, cartItems]);
+  }, [history, userInfo, redirect]);
 
   const submitHandler = (e) => {
     e.preventDefault();
     //Dispatch lOGIN
-    dispatch(login(email, password));
+    dispatch(register(email, password, name));
   };
 
   return (
     <FormContainer>
-      <h1>Sign In</h1>
+      <h1>Register a New User</h1>
       {error && <div style={{ color: "red" }}>{error}</div>}
       {loading && <h4>Loading</h4>}
       <Form onSubmit={submitHandler}>
@@ -60,16 +57,26 @@ const Login = ({ location }) => {
           ></Form.Control>
         </Form.Group>
 
+        <Form.Group controlId="name">
+          <Form.Label>Name</Form.Label>
+          <Form.Control
+            type="name"
+            placeholder="Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          ></Form.Control>
+        </Form.Group>
+
         <Button type="submit" varuabt="primary">
-          Sign In
+          Register
         </Button>
       </Form>
 
       <Row className="py-3">
         <Col>
-          New Customer ?
-          <Link to={"/user/register"} style={{ color: "black" }}>
-            Register
+          Already have a account ?
+          <Link to={"/user/login"} style={{ color: "black" }}>
+            Log in
           </Link>
         </Col>
       </Row>
@@ -77,4 +84,4 @@ const Login = ({ location }) => {
   );
 };
 
-export default Login;
+export default Register;
