@@ -9,6 +9,7 @@ import Home from "./pages/Home.js";
 import CartPage from "./pages/CartPage.js";
 import Login from "./pages/Login.js";
 import Register from "./pages/Register.js";
+import Shipping from "./pages/Shipping.js";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/user/login" element={<Login />} />
               <Route path="/user/register" element={<Register />} />
+              <Route path="/user/shipping" element={<Shipping />} />
               <Route path="/product/:id" element={<ProductPage />} />
               <Route path="/cart" element={<CartPage />} />
               <Route path="/cart/:id" element={<CartPage />} />

@@ -27,8 +27,13 @@ const userInfoFromStorage = localStorage.getItem("userInfo")
   ? JSON.parse(localStorage.getItem("userInfo"))
   : null;
 
+const shippingFromStorage = localStorage.getItem("shipping")
+  ? JSON.parse(localStorage.getItem("shipping"))
+  : {};
+
 const initialState = {
-  cart: { cartItems: carItemsFromStorage },
+  //shipping is part of cart, need to modify the props for cart reducer
+  cart: { cartItems: carItemsFromStorage, shipping: shippingFromStorage },
   userLogin: { userInfo: userInfoFromStorage },
 };
 
