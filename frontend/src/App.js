@@ -10,6 +10,7 @@ import CartPage from "./pages/CartPage.js";
 import Login from "./pages/Login.js";
 import Register from "./pages/Register.js";
 import Shipping from "./pages/Shipping.js";
+import Payment from "./pages/Payment.js";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
               <Route path="/user/login" element={<Login />} />
               <Route path="/user/register" element={<Register />} />
               <Route path="/user/shipping" element={<Shipping />} />
+              <Route path="/user/payment" element={<Payment />} />
               <Route path="/product/:id" element={<ProductPage />} />
               <Route path="/cart" element={<CartPage />} />
               <Route path="/cart/:id" element={<CartPage />} />
