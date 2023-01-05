@@ -17,7 +17,7 @@ const addOrderItems = async (req, res) => {
       totalPrice,
     } = req.body;
 
-    console.log("order req coming");
+    //console.log("order req coming");
 
     if (orderItems && orderItems.length === 0) {
       res.status(400);

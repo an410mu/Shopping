@@ -33,7 +33,7 @@ const PlaceOrder = () => {
     if (success) {
       history(`/order/${order._id}`);
     }
-  }, [success]);
+  }, [success, history]);
 
   const placeOrderHandler = () => {
     console.log("place order");

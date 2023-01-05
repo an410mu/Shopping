@@ -22,6 +22,8 @@ app.use("/order", orderRoutes);
 // app.use(notFound);
 app.use(errorHandler);
 
+app.get("/config/paypal", (req, res) => res.send(process.env.PAYPAL_CLIENT_ID));
+
 const port = process.env.PORT || 8000;
 
 const start = async () => {

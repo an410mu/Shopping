@@ -8,7 +8,6 @@ import {
   ORDER_DETAILS_FAIL,
   ORDER_PAY_FAIL,
   ORDER_PAY_REQUEST,
-  ORDER_PAY_RESET,
   ORDER_PAY_SUCCESS,
 } from "../constants/orderConstants.js";
 
@@ -27,7 +26,7 @@ export const createOrder = (order) => async (dispatch, getState) => {
       },
     };
 
-    console.log(order);
+    //console.log(order);
     const { data } = await axios.post("/order", order, config);
 
     dispatch({
