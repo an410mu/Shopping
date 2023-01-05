@@ -18,10 +18,10 @@ const protect = async (req, res, next) => {
       token = req.headers.authorization.split(" ")[1];
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
       req.user = await User.findById(decoded.userID);
-      //console.log(decoded);
+      console.log(decoded);
       next();
     } catch (err) {
-      res.json({});
+      res.json({ message: "error from auth" });
       throw Error("Unauthorized");
     }
   }

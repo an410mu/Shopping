@@ -13,8 +13,13 @@ const review = mongoose.Schema(
     },
 
     comment: {
-      type: Number,
+      type: String,
       required: true,
+    },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "User",
     },
   },
   {
