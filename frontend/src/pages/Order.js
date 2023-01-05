@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Row, Col, ListGroup, Card, Image } from "react-bootstrap";
+import { Row, Col, ListGroup, Card, Image, Alert } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
 import { getOrderDetails } from "../actions/orderActions.js";
 
@@ -72,6 +72,11 @@ const Order = () => {
                 {"  "}
                 {order.paymentMethod}
               </p>
+              {order.isPaid ? (
+                <Alert variant="primary">Paid on {order.paidAt}</Alert>
+              ) : (
+                <Alert variant="danger">Not Paid</Alert>
+              )}
             </ListGroup.Item>
 
             <ListGroup.Item>
