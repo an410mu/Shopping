@@ -14,12 +14,12 @@ const Shipping = () => {
 
   const [address, setAddress] = useState(shipping.address);
   const [city, setCity] = useState(shipping.city);
-  const [zipCode, setZipCode] = useState(shipping.zipCode);
+  const [zipcode, setZipcode] = useState(shipping.zipcode);
   const [country, setCountry] = useState(shipping.country);
 
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(saveShipping({ address, city, zipCode, country }));
+    dispatch(saveShipping({ address, city, zipcode, country }));
     console.log("submit address");
     history("/user/payment");
   };
@@ -52,14 +52,14 @@ const Shipping = () => {
             ></Form.Control>
           </Form.Group>
 
-          <Form.Group controlId="zipCode">
-            <Form.Label>zipCode</Form.Label>
+          <Form.Group controlId="zipcode">
+            <Form.Label>ZipCode</Form.Label>
             <Form.Control
               type="zipCode"
-              placeholder="zipCode"
-              value={zipCode}
+              placeholder="zipcode"
+              value={zipcode}
               required
-              onChange={(e) => setZipCode(e.target.value)}
+              onChange={(e) => setZipcode(e.target.value)}
             ></Form.Control>
           </Form.Group>
 

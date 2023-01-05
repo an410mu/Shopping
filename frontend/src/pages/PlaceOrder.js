@@ -1,40 +1,53 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  Row,
-  Col,
-  ListGroup,
-  Card,
-  Button,
-  Image,
-  Form,
-} from "react-bootstrap";
+import { Row, Col, ListGroup, Card, Button, Image } from "react-bootstrap";
 import CheckoutStep from "../components/CheckoutStep.js";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { createOrder } from "../actions/orderActions.js";
 
 const PlaceOrder = () => {
   const cart = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
+  const history = useNavigate();
 
   //prices
   cart.itemsPrice = cart.cartItems.reduce(
     (acc, ele) => acc + ele.price * ele.qty,
     0
   );
-
   const addDecimals = (num) => {
     return (Math.round(num * 100) / 100).toFixed(2);
   };
   cart.shippingPrice = cart.itemsPrice > 100 ? 5 : 15;
   cart.taxPrice = addDecimals(Number(0.12 * cart.itemsPrice));
-
   const total =
     Number(cart.itemsPrice) +
     Number(cart.shippingPrice) +
     Number(cart.taxPrice);
   cart.totalPrice = addDecimals(total);
 
+  const orderCreate = useSelector((state) => state.orderCreate);
+  const { order, success, error } = orderCreate;
+
+  useEffect(() => {
+    if (success) {
+      history(`/order/${order._id}`);
+    }
+  }, [success]);
+
   const placeOrderHandler = () => {
     console.log("place order");
+    dispatch(
+      createOrder({
+        orderItems: cart.cartItems,
+        shippingAddress: cart.shipping,
+        paymentMethod: cart.payment,
+        itemsPrice: cart.itemsPrice,
+        shippingPrice: cart.shippingPrice,
+        taxPrice: cart.taxPrice,
+        totalPrice: cart.totalPrice,
+      })
+    );
   };
 
   return (
@@ -48,7 +61,7 @@ const PlaceOrder = () => {
               <p>
                 <strong>Address:</strong>
                 {cart.shipping.address}, {cart.shipping.city},{" "}
-                {cart.shipping.zipCode} {cart.shipping.country}
+                {cart.shipping.zipcode} {cart.shipping.country}
               </p>
             </ListGroup.Item>
             <ListGroup.Item>
@@ -126,6 +139,7 @@ const PlaceOrder = () => {
                   <Col>${cart.totalPrice}</Col>
                 </Row>
               </ListGroup.Item>
+              <ListGroup.Item>{error && <p>Something wrong</p>}</ListGroup.Item>
               <ListGroup.Item>
                 <Button
                   type="button"
