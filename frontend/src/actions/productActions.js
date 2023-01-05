@@ -5,6 +5,9 @@ import {
   PRODUCT_ONE_FAIL,
   PRODUCT_ONE_REQUEST,
   PRODUCT_ONE_SUCCESS,
+  PRODUCT_CREATE_REV_FAIL,
+  PRODUCT_CREATE_REV_REQUEST,
+  PRODUCT_CREATE_REV_SUCCESS,
 } from "../constants/productConstants.js";
 import axios from "axios";
 
@@ -45,3 +48,31 @@ export const oneProduct = (id) => async (dispatch) => {
     });
   }
 };
+
+export const createProductReview =
+  (productId, review) => async (dispatch, getState) => {
+    try {
+      dispatch({ type: PRODUCT_CREATE_REV_REQUEST });
+
+      const { userLogin } = getState();
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userLogin.userInfo.token}`,
+        },
+      };
+
+      await axios.post(`/products/${productId}/reviews`, review, config);
+
+      dispatch({ type: PRODUCT_CREATE_REV_SUCCESS });
+    } catch (error) {
+      dispatch({
+        type: PRODUCT_CREATE_REV_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };
