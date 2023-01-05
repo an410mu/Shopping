@@ -1,67 +1,68 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Row, Col, ListGroup, Card, Button, Image } from "react-bootstrap";
-import CheckoutStep from "../components/CheckoutStep.js";
-import { Link, useNavigate } from "react-router-dom";
-import { createOrder } from "../actions/orderActions.js";
+import { Row, Col, ListGroup, Card, Image } from "react-bootstrap";
+import { Link, useParams } from "react-router-dom";
+import { getOrderDetails } from "../actions/orderActions.js";
 
-const PlaceOrder = () => {
-  const cart = useSelector((state) => state.cart);
+const Order = () => {
+  const params = useParams();
+
   const dispatch = useDispatch();
-  const history = useNavigate();
+  //const history = useNavigate();
+
+  const orderDetails = useSelector((state) => state.orderDetails);
+  const { order, loading, error } = orderDetails;
 
   //prices
-  cart.itemsPrice = cart.cartItems.reduce(
-    (acc, ele) => acc + ele.price * ele.qty,
-    0
-  );
+
   const addDecimals = (num) => {
     return (Math.round(num * 100) / 100).toFixed(2);
   };
-  cart.shippingPrice = cart.itemsPrice > 100 ? 5 : 15;
-  cart.taxPrice = addDecimals(Number(0.12 * cart.itemsPrice));
-  const total =
-    Number(cart.itemsPrice) +
-    Number(cart.shippingPrice) +
-    Number(cart.taxPrice);
-  cart.totalPrice = addDecimals(total);
-
-  const orderCreate = useSelector((state) => state.orderCreate);
-  const { order, success, error } = orderCreate;
-
-  useEffect(() => {
-    if (success) {
-      history(`/order/${order._id}`);
-    }
-  }, [success, history, order._id]);
-
-  const placeOrderHandler = () => {
-    console.log("place order");
-    dispatch(
-      createOrder({
-        orderItems: cart.cartItems,
-        shippingAddress: cart.shipping,
-        paymentMethod: cart.payment,
-        itemsPrice: cart.itemsPrice,
-        shippingPrice: cart.shippingPrice,
-        taxPrice: cart.taxPrice,
-        totalPrice: cart.totalPrice,
-      })
+  if (!loading) {
+    order.itemsPrice = order.orderItems.reduce(
+      (acc, ele) => acc + ele.price * ele.qty,
+      0
     );
-  };
+    const total =
+      Number(order.itemsPrice) +
+      Number(order.shippingPrice) +
+      Number(order.taxPrice);
+    order.totalPrice = addDecimals(total);
+  }
+  useEffect(() => {
+    if (!order || order._id !== params.id) {
+      dispatch(getOrderDetails(params.id));
+    }
+  }, [order, params.id, dispatch]);
 
-  return (
+  return loading ? (
+    <p>Loading</p>
+  ) : error ? (
+    <p>Something wrong</p>
+  ) : (
     <>
-      <CheckoutStep step1 step2 step3 step4 />
+      <h2>
+        Order {":"} {order._id}
+      </h2>
       <Row>
         <Col md={8}>
           <ListGroup variant="flush">
             <ListGroup.Item>
               <h2>Shipping</h2>
+              <strong>Name: </strong> {order.user.name}
+              <p>
+                <strong>Email:</strong>
+                <a
+                  href={`mailto:${order.user.email}`}
+                  style={{ color: "black" }}
+                >
+                  {order.user.email}
+                </a>
+              </p>
               <p>
                 <strong>Address:</strong>
-                {cart.shipping.address}, {cart.shipping.city},{" "}
-                {cart.shipping.zipcode} {cart.shipping.country}
+                {order.shippingAddress.address}, {order.shippingAddress.city},{" "}
+                {order.shippingAddress.zipcode} {order.shippingAddress.country}
               </p>
             </ListGroup.Item>
             <ListGroup.Item>
@@ -69,17 +70,17 @@ const PlaceOrder = () => {
               <p>
                 <strong>Method:</strong>
                 {"  "}
-                {cart.payment}
+                {order.paymentMethod}
               </p>
             </ListGroup.Item>
 
             <ListGroup.Item>
               <h2>Order Items</h2>
-              {cart.cartItems.length === 0 ? (
-                <p>Your Car is Empty</p>
+              {order.orderItems.length === 0 ? (
+                <p>Order is Empty</p>
               ) : (
                 <ListGroup variant="flush">
-                  {cart.cartItems.map((item) => (
+                  {order.orderItems.map((item) => (
                     <ListGroup.Item key={item.product}>
                       <Row>
                         <Col md={2}>
@@ -118,37 +119,26 @@ const PlaceOrder = () => {
               <ListGroup.Item>
                 <Row>
                   <Col>Items</Col>
-                  <Col>${cart.itemsPrice}</Col>
+                  <Col>${order.itemsPrice}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
                   <Col>Shipping Price</Col>
-                  <Col>${cart.shippingPrice}</Col>
+                  <Col>${order.shippingPrice}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
                   <Col>Tax</Col>
-                  <Col>${cart.taxPrice}</Col>
+                  <Col>${order.taxPrice}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
                   <Col>Total</Col>
-                  <Col>${cart.totalPrice}</Col>
+                  <Col>${order.totalPrice}</Col>
                 </Row>
-              </ListGroup.Item>
-              <ListGroup.Item>{error && <p>Something wrong</p>}</ListGroup.Item>
-              <ListGroup.Item>
-                <Button
-                  type="button"
-                  className="btn-block"
-                  disabled={cart.cartItems.length === 0}
-                  onClick={placeOrderHandler}
-                >
-                  Place Order
-                </Button>
               </ListGroup.Item>
             </ListGroup>
           </Card>
@@ -158,4 +148,4 @@ const PlaceOrder = () => {
   );
 };
 
-export default PlaceOrder;
+export default Order;
