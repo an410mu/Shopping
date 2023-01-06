@@ -67,7 +67,6 @@ const ProductPage = () => {
 
   const addToCartHandler = () => {
     console.log("clicked");
-    console.log("review:", product.reviews);
     history(`/cart/${params.id}?qty=${qty}`);
   };
 
@@ -227,7 +226,13 @@ const ProductPage = () => {
                 ) : (
                   <Alert variant="primary">
                     Please{" "}
-                    <Link to="/user/login" style={{ color: "black" }}>
+                    <Link
+                      to="/user/login"
+                      style={{
+                        color: "black",
+                        textDecorationLine: "underline",
+                      }}
+                    >
                       Sign In
                     </Link>{" "}
                     to write a review

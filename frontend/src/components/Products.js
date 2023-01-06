@@ -1,9 +1,17 @@
 import React from "react";
 import { Card, Button } from "react-bootstrap";
 import Rating from "./Rating.js";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Product = ({ product }) => {
+  const qty = 1;
+  const history = useNavigate();
+
+  const addToCartHandler = () => {
+    console.log("clicked");
+    history(`/cart/${product._id}?qty=${qty}`);
+  };
+
   return (
     <>
       <Card className="my-3 p-3 rounded">
@@ -24,7 +32,13 @@ const Product = ({ product }) => {
             />
           </Card.Text>
           <Card.Text as="h3">{product.price}</Card.Text>
-          <Button as="div" className="my-3" size="sm">
+          <Button
+            className="my-3"
+            size="sm"
+            onClick={addToCartHandler}
+            type="button"
+            disabled={product.countInStock === 0 ? true : false}
+          >
             Add to Cart
           </Button>
         </Card.Body>

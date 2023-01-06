@@ -62,7 +62,7 @@ const CartPage = ({ location }) => {
           {cartItems.length === 0 ? (
             <h3>
               Your cart is empty{" "}
-              <Link to="/" style={{ color: "black" }}>
+              <Link to="/" style={{ color: "black", border: "solid" }}>
                 Go Back
               </Link>
             </h3>
