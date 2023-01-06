@@ -21,7 +21,7 @@ const Login = ({ location }) => {
   const redirect = "/";
 
   useEffect(() => {
-    if (userInfo && cartItems) {
+    if (userInfo && cartItems.length !== 0) {
       history("/user/shipping");
     } else if (userInfo) {
       history("/");

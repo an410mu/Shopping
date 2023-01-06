@@ -25,7 +25,7 @@ const ProductPage = () => {
   const [qty, setQty] = useState(1);
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
-  const [reviewErr, setReviewErr] = useState(false);
+  //const [reviewErr, setReviewErr] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -191,7 +191,9 @@ const ProductPage = () => {
               )}
               <ListGroup.Item>
                 <h2>Write a Customer Review</h2>
-                {reviewErr && <Alert variant="danger">Something wrong</Alert>}
+                {errorProductReview && (
+                  <Alert variant="danger">Something wrong</Alert>
+                )}
                 {userInfo ? (
                   <Form onSubmit={submitHandler}>
                     <Form.Group controlId="rating">
