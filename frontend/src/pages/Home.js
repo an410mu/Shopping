@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { Row, Col } from "react-bootstrap";
 import Product from "../components/Products.js";
+import ProductCarousel from "../components/ProductCarousel.js";
 import { useDispatch, useSelector } from "react-redux";
 import { listProducts } from "../actions/productActions.js";
 
@@ -24,7 +25,8 @@ const Home = () => {
 
   return (
     <>
-      <h1>Latest Product</h1>
+      <ProductCarousel />
+      <h1 style={{ marginTop: "30px" }}>Latest Product</h1>
       {loading ? (
         <h2>Loading...</h2>
       ) : error ? (
