@@ -6,7 +6,7 @@ import {
   createReview,
   getTopProduct,
 } from "../controller/productController.js";
-import { protect } from "../middleware/authMiddleware.js";
+import { protect } from "../middleware/authMiddleWare.js";
 
 router.route("/").get(getProduct);
 
